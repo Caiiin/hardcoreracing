@@ -1,35 +1,20 @@
 
-
-
 CreateClientConVar("ColorRed",0,true,false,"")
 CreateClientConVar("ColorGreen",0,true,false,"")
 CreateClientConVar("ColorBlue",0,true,false,"")
 
-carlist = {}
-
-carlist[0] = {car = "Mitsubishi Eclipse GSX"}	
-carlist[1] = {car = "Nissan Silvia S15"}
-carlist[2] = {car = "Mitsubishi Evolution VIII"}
-carlist[3] = {car = "Mitsubishi Evolution X"}
-carlist[4] = {car = "Nissan Skyline R34"}
-carlist[5] = {car = "Nissan 370Z"}
-carlist[6] = {car = "Mitsubishi Eclipse GT"}
-
-
-
-
-
-
-
+--carlist = {}
 cars = {}
+--- incorporate cars / their model paths into one table for easier use.
+-- use constructors so we can refer to them much easier in future.
+cars[0] = {["car"] = "Mitsubishi Eclipse GSX", ["mdl"] = "models/tdmcars/mit_eclipsegsx.mdl"}	
+cars[1] = {["car"] = "Nissan Silvia S15", ["mdl"] = "models/tdmcars/nissan_silvias15.mdl"}
+cars[2] = {["car"] = "Mitsubishi Evolution VIII", ["mdl"] = "models/tdmcars/mitsu_evo8.mdl"}
+cars[3] = {["car"] = "Mitsubishi Evolution X", ["mdl"] = "models/tdmcars/mitsu_evox.mdl"}
+cars[4] = {["car"] = "Nissan Skyline R34", ["mdl"] = "models/tdmcars/skyline_r34.mdl" }
+cars[5] = {["car"] = "Nissan 370Z", ["mdl"] = "models/tdmcars/nis_370z.mdl"}
+cars[6] = {["car"] = "Mitsubishi Eclipse GT", ["mdl"] = "models/tdmcars/mitsu_eclipgt.mdl"}
 
-cars[0] = {car = "models/tdmcars/mit_eclipsegsx.mdl"}
-cars[1] = {car = "models/tdmcars/nissan_silvias15.mdl"}
-cars[2] = {car = "models/tdmcars/mitsu_evo8.mdl"}
-cars[3] = {car = "models/tdmcars/mitsu_evox.mdl"}
-cars[4] = {car = "models/tdmcars/skyline_r34.mdl"}
-cars[5] = {car = "models/tdmcars/nis_370z.mdl"}
-cars[6] = {car = "models/tdmcars/mitsu_eclipgt.mdl"}
 
 net.Receive("openCustomMenu", function()
 local col = Color(GetConVarNumber( "ColorRed" ), GetConVarNumber("ColorGreen"), GetConVarNumber("ColorBlue"), 255)
@@ -67,16 +52,7 @@ local avg = 0
 	customizecarsbutton:SetSize(50,50)
 	customizecarsbutton:Dock( BOTTOM )
 	customizecarsbutton:SetText("Customize Car")
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	local ColorMenu = vgui.Create("DFrame")
 	
@@ -125,21 +101,8 @@ local avg = 0
 	colorbutton:Dock( BOTTOM )
 	colorbutton:SetVisible( true )
 	colorbutton:SetText("Set This Color")
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
 	local vendermenu = vgui.Create("DFrame")
 	
 	vendermenu:SetSize(750,500)
@@ -155,72 +118,26 @@ local avg = 0
 	
 	local DScrollPanel = vgui.Create( "DScrollPanel", vendermenu )
 	DScrollPanel:Dock( FILL )
-
-		local buttonlist0 = DScrollPanel:Add( "DButton" )
-		local buttonlist1 = DScrollPanel:Add( "DButton" )
-		local buttonlist2 = DScrollPanel:Add( "DButton" )
-		local buttonlist3 = DScrollPanel:Add( "DButton" )
-		local buttonlist4 = DScrollPanel:Add( "DButton" )
-		local buttonlist5 = DScrollPanel:Add( "DButton" )
-		local buttonlist6 = DScrollPanel:Add( "DButton" )
-		buttonlist0:SetText( "Mitsubishi Eclipse GSX: $2000" )
-		
-		buttonlist1:SetText( "Nissan Silvia S15: $5000" )
-		
-		buttonlist2:SetText( "Mitsubishi Evolution VIII: $5500" )
-		
-		buttonlist3:SetText( "Mitsubishi Evolution X: $6000" )
-		
-		buttonlist4:SetText( "Nissan Skyline R34: $8000" )
-		
-		buttonlist5:SetText( "Nissan 370Z: $4000" )
-		
-		buttonlist6:SetText( "Mitsubishi Eclipse GT: $3000" )
-		
-		buttonlist0:SetSize( 150, 100 )
-		buttonlist0:Dock( TOP )
-		buttonlist0:DockMargin( 0, 0, 0, 5 )
+		for k, v in pairs( cars ) do
+			local carbuttonlist = DScrollPanel:Add( "DButton" )
+			carbuttonlist:SetText( v.car )
+			carbuttonlist:SetSize( 150, 100 )
+			carbuttonlist:Dock( TOP )
+			carbuttonlist:DockMargin( 0, 0, 0, 5 )
+			carbuttonlist:SetMouseInputEnabled( true )
+			function carbuttonlist:DoClick()
+				car:SetModel( v.mdl )
+				buyButton:SetText("Buy the " .. carlist[k].car .. "?")
+				number = k
+			end
 	
-		buttonlist1:SetSize( 150, 100 )
-		buttonlist1:Dock( TOP )
-		buttonlist1:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist2:SetSize( 150, 100 )
-		buttonlist2:Dock( TOP )
-		buttonlist2:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist3:SetSize( 150, 100 )
-		buttonlist3:Dock( TOP )
-		buttonlist3:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist4:SetSize( 150, 100 )
-		buttonlist4:Dock( TOP )
-		buttonlist4:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist5:SetSize( 150, 100 )
-		buttonlist5:Dock( TOP )
-		buttonlist5:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist6:SetSize( 150, 100 )
-		buttonlist6:Dock( TOP )
-		buttonlist6:DockMargin( 0, 0, 0, 5 )
-		
-		buttonlist0:SetMouseInputEnabled( true )
-		buttonlist1:SetMouseInputEnabled( true )
-		buttonlist2:SetMouseInputEnabled( true )
-		buttonlist3:SetMouseInputEnabled( true )
-		buttonlist4:SetMouseInputEnabled( true )
-		buttonlist5:SetMouseInputEnabled( true )
-		buttonlist6:SetMouseInputEnabled( true )
-		
-	
-	
+		end
 	
 	local car = vgui.Create( "DModelPanel", vendermenu )
 	car:SetSize( 400,400 )
 	car:Dock(LEFT)
 	
-	car:SetModel( cars[number].car )
+	car:SetModel( cars[number].mdl )
 	car:SetColor(col)
 	
 	local mn, mx = car.Entity:GetRenderBounds()
@@ -234,55 +151,11 @@ local avg = 0
 	car:SetLookAt( ( mn + mx ) *.2 )
 	
 	local buyButton = vgui.Create("DButton", vendermenu )
-	buyButton:SetText("Buy the " .. carlist[number].car .. "?")
+	buyButton:SetText("Buy the " .. cars[number].car .. "?")
 	buyButton:SetSize(0,45)
 	buyButton:Dock(BOTTOM)
 	
-	function buttonlist0:DoClick()
-	car:SetModel( cars[0].car )
-	buyButton:SetText("Buy the " .. carlist[0].car .. "?")
-	number = 0
-	end
-	
-	function buttonlist1:DoClick()
-	car:SetModel( cars[1].car )
-	buyButton:SetText("Buy the " .. carlist[1].car .. "?")
-	number = 1
-	end
-	
-	function buttonlist2:DoClick()
-	buyButton:SetText("Buy the " .. carlist[2].car .. "?")
-	car:SetModel( cars[2].car )
-	number = 2
-	end
-	
-	function buttonlist3:DoClick()
-	buyButton:SetText("Buy the " .. carlist[3].car .. "?")
-	car:SetModel( cars[3].car )
-	number = 3
-	end
-	
-	function buttonlist4:DoClick()
-	buyButton:SetText("Buy the " .. carlist[4].car .. "?")
-	car:SetModel( cars[4].car )
-	number = 4
-	end 
-	
-	function buttonlist5:DoClick()
-	buyButton:SetText("Buy the " .. carlist[5].car .. "?")
-	car:SetModel( cars[5].car )
-	number = 5
-	end
-	
-	function buttonlist6:DoClick()
-	buyButton:SetText("Buy the " .. carlist[6].car .. "?")
-	car:SetModel( cars[6].car )
-	number = 6
-	end		
-	
-	
-	
-	
+	-- i just deleted all the doclicks lol
 	
 	local customize = vgui.Create("DFrame")
 	
@@ -985,7 +858,6 @@ prev:SetLookAt( ( mn + mx ) * 0.2 )
 	
 	end
 	
-
 	function colorbutton:OnMousePressed()
 		local coloris = Color(GetConVarNumber( "ColorRed" ), GetConVarNumber("ColorGreen"), GetConVarNumber("ColorBlue"))
 		net.Start("color")
